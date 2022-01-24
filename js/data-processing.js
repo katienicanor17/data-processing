@@ -4,6 +4,15 @@ let myCart= ''; // will store cart details
 let myTotal = 0; // will tsore total cost
 
 
+function titleCase(str) {
+    str = str.toLowerCase().split(' ');
+    for (var i = 0; i < str.length; i++) {
+      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+    }
+    return str.join(' ');
+  }
+
+
 if(queryString != ""){//process data 
     //separate querystring paramenters 
     const urlParams = new URLSearchParams(queryString);
@@ -31,10 +40,19 @@ if(queryString != ""){//process data
         }else{//build shipping info
             //https://stackoverflow.com/questions/542232/in-javascript-how-can-i-perform-a-global-replace-on-string-with-a-variable-insi
             //will replace underscore with spaces
+            switch(key){
+                case "First_Name":
+                case "Last_Name":
+                case "Address":
+                case "City":
+                    value = titleCase(value);
+                break;
+            }
             key = key.split("_").join(" ");
             myData += `<p>${key}: ${value}</p>`;
         }
     });
+    
 
     myCart = `
         <p><b>Cart Contents</b></p>
